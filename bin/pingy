@@ -1,0 +1,75 @@
+#!/bin/bash
+
+DIR="$(dirname `readlink -f $0`)/.."
+PIDFILE=$DIR/unicorn.pid
+RUBY=1.9.2
+GEMSET=pingy
+COMMAND=$1
+
+[ -r $PIDFILE ] && PID=$(cat $PIDFILE)
+
+set_ruby() {
+    if [ -r /etc/profile.d/rvm.sh ]; then
+	source /etc/profile.d/rvm.sh
+	rvm $RUBY@$GEMSET
+    fi
+}
+
+install() {
+    if [ -r /etc/profile.d/rvm.sh ]; then
+	source /etc/profile.d/rvm.sh
+	rvm $RUBY@$GEMSET --create
+    fi
+
+    if [ $(gem list bundler -i) == "false" ]; then
+	gem install bundler --no-ri --no-rdoc
+    fi
+
+    bundle install
+}
+
+start() {
+    if [ -n "$PID" ] && [ -d "/proc/$PID" ]; then
+	echo "already running"
+    else
+	bundle exec unicorn -c unicorn.conf.rb -D
+    fi
+}
+
+stop() {
+    if [ -n "$PID" ] && [ -d "/proc/$PID" ]; then
+	kill -QUIT $PID
+    else
+	echo "already stopped"
+    fi
+}
+
+restart() {
+    if [ -n "$PID" ] && [ -d "/proc/$PID" ]; then
+	kill -USR2 $PID
+	sleep 1
+	kill -QUIT $PID
+    else
+        stop
+	start
+    fi
+}
+
+case "$COMMAND" in
+	install)
+	pushd $DIR >/dev/null
+	$COMMAND
+	popd >/dev/null
+	;;
+	start|stop|restart)
+	set_ruby
+	pushd $DIR >/dev/null
+	$COMMAND
+	popd >/dev/null
+	;;
+	*)
+	echo "usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
