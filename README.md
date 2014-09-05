@@ -2,6 +2,10 @@
 
 Pingy is a lightweight ruby read-only web ui in place of mmonit. 
 
+![Pingy Hosts](/public/pingy-hosts.png?raw=true "Pingy Hosts")
+
+![Pingy Host](/public/pingy-host.png?raw=true "Pingy Host")
+
 Supports Monit v5.1.1 (tested)
 
 ## Release Notes
