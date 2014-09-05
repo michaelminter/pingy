@@ -42,18 +42,18 @@
           <% service.each do |name,values| -%>
           <% if name == 'name'; next; end %>
           <% if values.class.to_s == 'Hash' %>
-          <tr><td width="20%"><%= name %></td><td></td></tr>
+          <tr><td width="20%"><strong><%= name %></strong></td><td></td></tr>
           <% values.each do |k,v| -%>
           <tr>
-            <td width="20%"><%= k %></td>
+            <td width="20%">&nbsp;&nbsp;&nbsp;<%= k %></td>
             <td><%= v %></td>
           </tr>
           <% end -%>
           <% elsif values.class.to_s == 'Array' %>
-          <tr><td><%= name %></td><td></td></tr>
+          <tr><td><strong><%= name %></strong></td><td></td></tr>
           <% values.each do |v| -%>
           <tr>
-            <td width="20%"><%= values.index(v) %></td>
+            <td width="20%">&nbsp;&nbsp;&nbsp;<%= values.index(v) %></td>
             <td><%= v %></td>
           </tr>
           <% end -%>
