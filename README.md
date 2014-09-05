@@ -11,3 +11,6 @@ Supports Monit v5.1.1 (tested)
 * Switch Redis data from Marshall to JSON
 * Show service if only one available instream
 
+## Special Thanks
+
+[http://fortawesome.github.io/Font-Awesome/](Font-Awesome)
