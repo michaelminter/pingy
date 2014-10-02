@@ -32,8 +32,9 @@ get '/host/:ip' do
     @ip      = params[:ip]
     @details = PINGY.get_host(params[:ip])
     @host    = PINGY.get_host_data(params[:ip])
-    if @host['service'].class != Array
-      @host['service'] = [@host['service']]
+    @services = @host['services'].nil? ? @host['service'] : @host['services']['service']
+    if @services.class != Array
+      @services = [@services]
     end
     erb :host
   else

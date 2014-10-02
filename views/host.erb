@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<% @host['service'].each do |service| -%>
+<% @services.each do |service| -%>
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-<%= service['status'] == '0' ? 'success' : 'danger' %>">
